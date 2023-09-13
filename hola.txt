@@ -1,1 +1,62 @@
-hola mundo 
+program ::= funlist mainfun
+
+funlist ::= /* empty */
+          | funlist fun
+
+fun ::= "fun" ID "(" arglist ")" "locals" decllist "begin" stmtlist "end"
+
+mainfun ::= "fun" "main" "()" "locals" decllist "begin" stmtlist "end"
+
+arglist ::= /* empty */
+          | ID ":" type
+          | ID ":" type "," arglist
+
+decllist ::= /* empty */
+          | decllist decl
+
+decl ::= ID ":" type ";"
+
+type ::= "int"
+       | "float"
+       | "int" "[" INTEGER "]"
+       | "float" "[" INTEGER "]"
+
+stmtlist ::= /* empty */
+           | stmtlist stmt
+
+stmt ::= "if" relation "then" stmt
+       | "if" relation "then" stmt "else" stmt
+       | "while" relation "do" stmt
+       | "location" ":=" expr ";"
+       | "print" "(" STRING ")"
+       | "write" "(" expr ")"
+       | "read" "(" "location" ")"
+       | "return" expr ";"
+       | "skip"
+       | "break"
+       | "begin" stmtlist "end" ';'
+       | fun_call ";"
+
+fun_call ::= ID "(" exprlist ")"
+
+exprlist ::= /* empty */
+           | expr
+           | expr "," exprlist
+
+expr ::= expr "+" term
+       | expr "-" term
+       | term
+
+term ::= term "*" factor
+       | term "/" factor
+       | factor
+
+factor ::= "(" expr ")"
+         | INTEGER
+         | ID
+         | ID "[" expr "]"
+
+relation ::= expr ("<" | "<=" | ">" | ">=" | "==" | "!=" ) expr
+           |(relation ('and' | 'or')) relation
+           | "not" relation
+           | "(" relation ")"
