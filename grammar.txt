@@ -23,6 +23,7 @@ type ::= "int"
 
 stmtlist ::= /* empty */
            | stmtlist stmt
+           | stmt
 
 stmt ::= "if" relation "then" stmt
        | "if" relation "then" stmt "else" stmt
@@ -34,8 +35,8 @@ stmt ::= "if" relation "then" stmt
        | "return" expr ";"
        | "skip"
        | "break"
-       | "begin" stmtlist "end" ';'
-       | fun_call ";"
+       | "begin" stmtlist "end"
+       | fun_call
 
 fun_call ::= ID "(" exprlist ")"
 
